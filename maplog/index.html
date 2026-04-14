@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapLog — Travel Map & Photo Journal</title>
+  <meta name="description" content="Track visited countries, add photos, GPS & animated routes">
+  <link rel="icon" type="image/png" href="assets/app_icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #1a1a2e;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #1a1a2e;
+    }
+
+    .nav-brand img { width: 36px; height: 36px; border-radius: 10px; }
+    .nav-brand span { font-weight: 700; font-size: 1.05rem; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0ea5e9;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.9; }
+
+    .hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%);
+    }
+
+    .hero-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .app-badge {
+      display: inline-block;
+      background: #0ea5e9;
+      color: #fff;
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #64748b;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1a1a2e;
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+
+    .hero-cta svg { width: 22px; height: 22px; }
+
+    .features {
+      padding: 80px 24px;
+      background: #fafafe;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1a1a2e;
+    }
+
+    .features .desc {
+      text-align: center;
+      color: #64748b;
+      font-size: 1.05rem;
+      margin-bottom: 48px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid #f0f0f5;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+
+    .phone-frame {
+      width: 200px;
+      margin: 0 auto 16px;
+      background: #f5f5f5;
+      border: 1.5px solid #ccc;
+      border-radius: 28px;
+      padding: 12px 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .phone-notch {
+      width: 10px;
+      height: 10px;
+      background: #ccc;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      border: 2px solid #aaa;
+    }
+
+    .phone-frame img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .phone-home {
+      width: 36px;
+      height: 4px;
+      background: #bbb;
+      border-radius: 2px;
+      margin: 8px auto 0;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .cta-bottom {
+      padding: 80px 24px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+    }
+
+    .cta-bottom h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; color: #1a1a2e; }
+    .cta-bottom p { color: #64748b; font-size: 1.05rem; margin-bottom: 32px; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid #f0f0f5;
+    }
+
+    footer a { color: #0ea5e9; text-decoration: none; font-size: 0.9rem; }
+    footer p { color: #94a3b8; font-size: 0.8rem; margin-top: 8px; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .features h2 { font-size: 1.6rem; }
+      .phone-frame { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-brand">
+      <img src="assets/app_icon.png" alt="Icon">
+      <span>MapLog</span>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.maplogue.maplog" class="nav-cta">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M3.609 1.814L13.792 12 3.61 22.186a2.37 2.37 0 0 1-.497-.544 2.37 2.37 0 0 1-.363-1.273V3.631c0-.463.13-.906.363-1.273.14-.222.306-.4.497-.544zm.86-.508L15.28 7.12l-2.89 2.89L4.468 1.306zm0 21.388l7.923-7.923-2.89-2.89L4.468 22.694zM16.6 7.78l3.394 1.97c.962.558.962 1.942 0 2.5L16.6 14.22 13.502 12 16.6 7.78z"/></svg>
+      Download
+    </a>
+  </nav>
+
+  <section class="hero">
+    <img src="assets/app_icon.png" alt="MapLog" class="hero-icon">
+    <h1>MapLog</h1>
+    <div class="app-badge">Travel Map & Journal</div>
+    <p>Track visited countries on a beautiful world map.<br>Add photos, GPS auto-detect & animated flight routes.</p>
+    <a href="https://play.google.com/store/apps/details?id=com.maplogue.maplog" class="hero-cta">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a2.37 2.37 0 0 1-.497-.544 2.37 2.37 0 0 1-.363-1.273V3.631c0-.463.13-.906.363-1.273.14-.222.306-.4.497-.544zm.86-.508L15.28 7.12l-2.89 2.89L4.468 1.306zm0 21.388l7.923-7.923-2.89-2.89L4.468 22.694zM16.6 7.78l3.394 1.97c.962.558.962 1.942 0 2.5L16.6 14.22 13.502 12 16.6 7.78z"/></svg>
+      Get it on Google Play
+    </a>
+  </section>
+
+  <section class="features">
+    <h2>Your Travels, Beautifully Mapped</h2>
+    <p class="desc">Every trip deserves to be remembered</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/1_flagmap_dark.jpg" alt="Flag Map Dark" loading="lazy"><div class="phone-home"></div></div>
+        <h3>World Map — Dark Mode</h3>
+        <p>Flag-filled world map showing every country you've visited. Beautiful dark theme.</p>
+      </div>
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/2_flagmap_light.jpg" alt="Flag Map Light" loading="lazy"><div class="phone-home"></div></div>
+        <h3>World Map — Light Mode</h3>
+        <p>Switch to light mode for a clean, bright view of your travel history.</p>
+      </div>
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/3_globe.jpg" alt="3D Globe" loading="lazy"><div class="phone-home"></div></div>
+        <h3>3D Globe View</h3>
+        <p>Explore your travels on an interactive 3D globe. Rotate, zoom, and discover.</p>
+      </div>
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/4_photos.jpg" alt="Photo Memories" loading="lazy"><div class="phone-home"></div></div>
+        <h3>Photo Pins on Map</h3>
+        <p>Attach photos to each country. Relive your best moments at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/5_record.jpg" alt="Travel Record" loading="lazy"><div class="phone-home"></div></div>
+        <h3>Travel Records</h3>
+        <p>Log your trips with dates, notes, and details. Build your personal travel diary.</p>
+      </div>
+      <div class="feature-card">
+        <div class="phone-frame"><div class="phone-notch"></div><img src="assets/6_share.jpg" alt="Share Card" loading="lazy"><div class="phone-home"></div></div>
+        <h3>Share & Export</h3>
+        <p>Share your travel stats card with friends. Show off where you've been.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-bottom">
+    <h2>Start Mapping Your Travels</h2>
+    <p>Download now and never forget where you've been.</p>
+    <a href="https://play.google.com/store/apps/details?id=com.maplogue.maplog" class="hero-cta">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a2.37 2.37 0 0 1-.497-.544 2.37 2.37 0 0 1-.363-1.273V3.631c0-.463.13-.906.363-1.273.14-.222.306-.4.497-.544zm.86-.508L15.28 7.12l-2.89 2.89L4.468 1.306zm0 21.388l7.923-7.923-2.89-2.89L4.468 22.694zM16.6 7.78l3.394 1.97c.962.558.962 1.942 0 2.5L16.6 14.22 13.502 12 16.6 7.78z"/></svg>
+      Get it on Google Play
+    </a>
+  </section>
+
+  <footer>
+    <a href="https://gggk720.github.io/maplog-privacy/">Privacy Policy</a>
+    <p>&copy; 2026 MapLog. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
